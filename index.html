@@ -462,8 +462,11 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
     if(result.data.session){
       notice.innerHTML='<div class="notice">Sesión iniciada. Abriendo Eslivo…</div>';
       var app=document.getElementById('app'),auth=document.getElementById('auth');
-      if(typeof enterApp==='function'&&typeof sb!=='undefined'){user=result.data.user;await enterApp()}
-      else {auth.classList.add('hidden');app.classList.remove('hidden');var em=document.getElementById('userEmail');if(em)em.textContent=email;notice.innerHTML=''}
+      user=result.data.user;
+      auth.classList.add('hidden');app.classList.remove('hidden');
+      var em=document.getElementById('userEmail');if(em)em.textContent=email;
+      notice.innerHTML='';
+      try{if(typeof loadProjects==='function')await loadProjects()}catch(loadErr){console.error('Error cargando proyectos:',loadErr)}
       return;
     }
     throw new Error('El servidor no ha devuelto una sesión. Inténtalo otra vez.');
