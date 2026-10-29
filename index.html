@@ -339,8 +339,8 @@ html,body{max-width:100%;overflow-x:hidden}
 #welcome .welcome-layout,#welcome .welcome-actions{position:relative!important;z-index:10000!important;pointer-events:auto!important}
 #welcome #startButton{position:relative!important;z-index:2147483647!important;display:inline-flex!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
 #welcome #startButton *{pointer-events:none!important}
-</style></head><body><div class="spotlight-background" aria-hidden="true"></div>
-<div id="welcome" class="welcome-screen hidden">
+#welcome.hidden,#auth.hidden,#app.hidden{display:none!important;visibility:hidden!important;pointer-events:none!important} #welcome:not(.hidden),#auth:not(.hidden),#app:not(.hidden){visibility:visible} </style></head><body><div class="spotlight-background" aria-hidden="true"></div>
+<div id="welcome" class="welcome-screen">
   <div class="welcome-noise"></div><div class="welcome-orb orb-one"></div><div class="welcome-orb orb-two"></div>
   <header class="welcome-nav">
     <div class="welcome-brand"><span class="welcome-logo"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="5" y="8" width="30" height="27" rx="8" stroke="currentColor" stroke-width="2.4"/><path d="M12 5v7M28 5v7M6 16h28" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="m13 24 4.5 4.5L27 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Eslivo<span class="brand-dot">.</span></span></div>
@@ -351,7 +351,7 @@ html,body{max-width:100%;overflow-x:hidden}
       <div class="welcome-pill"><span class="live-dot"></span> TODO TU EQUIPO, EN SINTONÍA</div>
       <h1>Menos lío.<br><span>Más equipo.</span></h1>
       <p class="welcome-copy">Organiza turnos, coordina personas y controla las horas desde un solo lugar. Tu negocio, más fácil de llevar.</p>
-      <div class="welcome-actions"><button id="startButton" type="button" class="launch-button" onclick="event.preventDefault();document.getElementById('welcome').style.setProperty('display','none','important');document.getElementById('welcome').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');document.getElementById('auth').style.setProperty('display','grid','important');window.scrollTo(0,0)" onpointerup="document.getElementById('welcome').style.setProperty('display','none','important');document.getElementById('welcome').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');document.getElementById('auth').style.setProperty('display','grid','important')"><span class="launch-label">Empezar ahora</span><span class="rocket-icon" aria-hidden="true">↗</span><span class="launch-flame" aria-hidden="true"></span><span class="launch-smoke" aria-hidden="true"></span></button><span class="cta-note">Configúralo en minutos <span>·</span> Sin complicaciones</span></div>
+      <div class="welcome-actions"><button id="startButton" type="button" class="launch-button"><span class="launch-label">Empezar ahora</span><span class="rocket-icon" aria-hidden="true">↗</span><span class="launch-flame" aria-hidden="true"></span><span class="launch-smoke" aria-hidden="true"></span></button><span class="cta-note">Configúralo en minutos <span>·</span> Sin complicaciones</span></div>
       <div class="welcome-proof"><span class="proof-icon">✓</span><span>Horarios claros</span><i></i><span class="proof-icon">✓</span><span>Equipo organizado</span><i></i><span class="proof-icon">✓</span><span>Todo bajo control</span></div>
     </section>
     <section class="welcome-preview" aria-label="Vista previa del panel de Eslivo">
@@ -366,26 +366,114 @@ html,body{max-width:100%;overflow-x:hidden}
     </section>
   </div>
   <footer class="welcome-footer"><span>ESLIVO <b>©</b> 2026</span><span>Hecho para que trabajar en equipo sea más fácil.</span><span class="footer-live"><i></i> Simple. Claro. Organizado.</span></footer>
-</div><div id="auth" class="authscreen"><div class="authcard"><div class="brand"><div class="logo" aria-label="Eslivo"><svg viewBox="0 0 32 32" width="27" height="27" fill="none" aria-hidden="true" style="position:relative;z-index:1;filter:drop-shadow(0 1px 0 #f7ffd9)"><rect x="5" y="7" width="22" height="20" rx="4" stroke="#18301b" stroke-width="2.4"/><path d="M10 4v6M22 4v6M6 13h20" stroke="#18301b" stroke-width="2.4" stroke-linecap="round"/><path d="m11 19 3.2 3.2L21.5 16" stroke="#18301b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><canvas class="elastic-title" data-elastic="Eslivo" aria-label="Eslivo" role="img" style="width:94px;height:34px;display:block;overflow:visible"></canvas><small>Turnos claros. Equipos en marcha.</small></div></div><h1 id="authTitle">Qué bueno verte.</h1><p class="muted" id="authDesc">Entra para organizar tus equipos y horarios.</p><div id="authNotice"></div><form id="authForm"><div class="field"><label>Correo electrónico</label><input id="email" type="email" autocomplete="email" required></div><div class="field"><label>Contraseña</label><input id="password" type="password" minlength="6" required></div><div id="nameField" class="field hidden"><label>Nombre</label><input id="displayName" placeholder="Tu nombre"></div><button type="submit" class="primary" id="authSubmit" style="width:100%">Iniciar sesión</button></form><div class="authswitch"><span id="switchText">¿Aún no tienes cuenta?</span> <button id="authSwitch">Crear cuenta</button></div></div></div>
+</div><div id="auth" class="authscreen hidden"><div class="authcard"><div class="brand"><div class="logo" aria-label="Eslivo"><svg viewBox="0 0 32 32" width="27" height="27" fill="none" aria-hidden="true" style="position:relative;z-index:1;filter:drop-shadow(0 1px 0 #f7ffd9)"><rect x="5" y="7" width="22" height="20" rx="4" stroke="#18301b" stroke-width="2.4"/><path d="M10 4v6M22 4v6M6 13h20" stroke="#18301b" stroke-width="2.4" stroke-linecap="round"/><path d="m11 19 3.2 3.2L21.5 16" stroke="#18301b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><canvas class="elastic-title" data-elastic="Eslivo" aria-label="Eslivo" role="img" style="width:94px;height:34px;display:block;overflow:visible"></canvas><small>Turnos claros. Equipos en marcha.</small></div></div><h1 id="authTitle">Qué bueno verte.</h1><p class="muted" id="authDesc">Entra para organizar tus equipos y horarios.</p><div id="authNotice"></div><form id="authForm"><div class="field"><label>Correo electrónico</label><input id="email" type="email" autocomplete="email" required></div><div class="field"><label>Contraseña</label><input id="password" type="password" minlength="6" required></div><div id="nameField" class="field hidden"><label>Nombre</label><input id="displayName" placeholder="Tu nombre"></div><button type="submit" class="primary" id="authSubmit" style="width:100%">Iniciar sesión</button></form><div class="authswitch"><span id="switchText">¿Aún no tienes cuenta?</span> <button id="authSwitch">Crear cuenta</button></div></div></div>
 <div id="app" class="app hidden"><aside><div class="brand"><div class="logo" aria-label="Eslivo"><svg viewBox="0 0 32 32" width="27" height="27" fill="none" aria-hidden="true" style="position:relative;z-index:1;filter:drop-shadow(0 1px 0 #f7ffd9)"><rect x="5" y="7" width="22" height="20" rx="4" stroke="#18301b" stroke-width="2.4"/><path d="M10 4v6M22 4v6M6 13h20" stroke="#18301b" stroke-width="2.4" stroke-linecap="round"/><path d="m11 19 3.2 3.2L21.5 16" stroke="#18301b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><canvas class="elastic-title" data-elastic="Eslivo" aria-label="Eslivo" role="img" style="width:94px;height:34px;display:block;overflow:visible"></canvas><small>Turnos claros. Equipos en marcha.</small></div></div><div><div class="sectionhead"><span>Mis proyectos</span><button id="newProjectBtn" class="ghost" style="padding:2px 9px;font-size:20px">+</button></div><div id="projectList" class="project-list"></div><button id="newProjectWide" class="ghost" style="width:100%;text-align:left;margin-top:8px">＋ Nuevo proyecto</button></div><div class="nav"><button class="active" data-page="schedule">▦ &nbsp; Horario semanal</button><button data-page="people">♙ &nbsp; Mi equipo</button></div><div class="sidebottom"><div id="userEmail" style="font-weight:700"></div><div class="muted small" id="currentProjectSide"></div><button id="logoutBtn" class="ghost">↪ Cerrar sesión</button></div></aside><main class="main"><div class="topbar"><div><div class="eyebrow" id="eyebrow">Tu espacio de trabajo</div><h1 class="title" id="pageTitle">Horario semanal</h1><div class="muted" id="pageDesc">Organiza los turnos de tu equipo en un solo lugar.</div></div><div id="pageActions" class="actions"><button id="addShiftBtn" class="primary">＋ Añadir turno</button></div></div><div id="noProject" class="card empty hidden"><div style="font-size:30px">✦</div><h2>Aún no tienes proyectos</h2><p>Crea tu primer proyecto para empezar.</p><button id="createFirst" class="primary">＋ Crear mi primer proyecto</button></div><div id="projectContent"><div class="stats"><div class="stat"><div class="label">Personas activas</div><div id="statPeople" class="value">0</div><div class="muted small">En este proyecto</div></div><div class="stat"><div class="label">Turnos esta semana</div><div id="statShifts" class="value">0</div><div class="muted small">Turnos asignados</div></div><div class="stat"><div class="label">Horas planificadas</div><div id="statHours" class="value">0 h</div><div class="muted small">Suma de turnos</div></div></div><section id="schedulePage" class="card"><div class="cardhead"><h2>Esta semana</h2><span id="weekLabel" class="muted small"></span></div><div id="scheduleGrid" style="margin-top:12px">Añade turnos y asigna cada uno a una persona y día.</div></section><section id="peoplePage" class="card hidden"><div class="cardhead"><div><h2>Personas del equipo</h2><div class="muted small">Gestiona personas y horas objetivo.</div></div><button id="addPersonBtn" class="primary">＋ Añadir persona</button></div><div id="peopleList"></div></section></div></main></div><div id="modalHost"></div><div id="toastHost"></div>
 <script>
 // Supabase se carga desde un CDN alternativo antes de iniciar la app.
 if(!window.supabase){document.getElementById('authNotice').innerHTML='<div class="notice" style="background:#3a171b;border-color:#8b4652;color:#ffd2d6">No se pudo cargar el sistema de acceso. Comprueba tu conexión y recarga la página.</div>';throw new Error('Supabase SDK no cargado');}
 const sb=window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}),$=id=>document.getElementById(id),days=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];let user=null,projects=[],project=null,schedule={people:[],shifts:[]},page='schedule',authMode='login',saveTimer=null,dirty=false,loading=false;
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function toast(s,error=false){let e=document.createElement('div');e.className='toast'+(error?' error':'');e.textContent=s;$('toastHost').replaceChildren(e);setTimeout(()=>e.remove(),3500)}function blank(){return{people:[],shifts:[]}}function norm(s){return{people:Array.isArray(s?.people)?s.people:[],shifts:Array.isArray(s?.shifts)?s.shifts:[]}}
-function openEslivoAuth(){const welcome=document.getElementById('welcome'),auth=document.getElementById('auth');if(welcome)welcome.classList.add('hidden');if(auth)auth.classList.remove('hidden');window.scrollTo({top:0,behavior:'auto'});const email=document.getElementById('email');if(email)setTimeout(()=>email.focus({preventScroll:true}),80)}document.addEventListener('click',e=>{const button=e.target.closest('#startButton');if(!button)return;e.preventDefault();e.stopPropagation();openEslivoAuth()},true);document.getElementById('startButton')?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openEslivoAuth()}});
-/* El botón Empezar ahora permanece estático; el clic sigue abriendo el acceso. */
-function authUI(){$('authTitle').textContent=authMode==='signup'?'Crea tu cuenta.':'Qué bueno verte.';$('authDesc').textContent=authMode==='signup'?'Empieza a organizar tus proyectos y equipos.':'Entra para organizar tus equipos y horarios.';$('authSubmit').textContent=authMode==='signup'?'Crear cuenta':'Iniciar sesión';$('nameField').classList.toggle('hidden',authMode!=='signup');$('switchText').textContent=authMode==='signup'?'¿Ya tienes cuenta?':'¿Aún no tienes cuenta?';$('authSwitch').textContent=authMode==='signup'?'Iniciar sesión':'Crear cuenta'}$('authSwitch').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('authNotice').innerHTML='';authUI()};
 
-
-
-async function submitEslivoAuth(e){if(e){e.preventDefault();e.stopPropagation()}const b=$('authSubmit');if(b.disabled)return;b.disabled=true;$('authNotice').innerHTML='<div class="notice" role="status">Conectando con Supabase…</div>';try{const email=$('email').value.trim(),password=$('password').value;if(!email||!password)throw new Error('Introduce el correo y la contraseña.');const r=authMode==='signup'?await sb.auth.signUp({email,password,options:{data:{display_name:$('displayName').value.trim()},emailRedirectTo:location.origin+'/'}}):await sb.auth.signInWithPassword({email,password});if(r.error)throw r.error;if(authMode==='signup'&&!r.data.session){$('authNotice').innerHTML='<div class="notice">Te hemos enviado un correo para confirmar la cuenta. Revisa también spam y vuelve aquí para iniciar sesión.</div>';return}if(!r.data.user)throw new Error('Supabase no devolvió una sesión. Comprueba la configuración de autenticación.');user=r.data.user;await enterApp()}catch(err){const m=String(err?.message||'');const friendly=/invalid login credentials|invalid email or password/i.test(m)?'El correo o la contraseña son incorrectos.':/email not confirmed/i.test(m)?'Confirma tu correo antes de iniciar sesión. Revisa tu bandeja de entrada y spam.':/network|fetch|failed to fetch/i.test(m)?'No se pudo conectar con Supabase. Comprueba la conexión e inténtalo de nuevo.':m||'No se pudo iniciar sesión.';$('authNotice').innerHTML='<div class="notice" style="background:#3a171b;border-color:#8b4652;color:#ffd2d6" role="alert">'+esc(friendly)+'</div>'}finally{b.disabled=false;authUI()}}
+// Eslivo access flow, rebuilt as one small state machine. The rest of the app is unchanged.
+let authBusy=false, appEntering=false;
+function setEslivoScreen(screen){
+  const panels={welcome:$('welcome'),auth:$('auth'),app:$('app')};
+  Object.entries(panels).forEach(([name,el])=>{
+    if(!el)return;
+    el.style.removeProperty('display');
+    el.style.removeProperty('visibility');
+    el.classList.toggle('hidden',name!==screen);
+    el.setAttribute('aria-hidden',name!==screen?'true':'false');
+  });
+  window.scrollTo({top:0,behavior:'auto'});
+  if(screen==='auth')setTimeout(()=>{const email=$('email');if(email)email.focus({preventScroll:true})},80);
+}
+function openEslivoAuth(){setEslivoScreen('auth');}
+function authUI(){
+  $('authTitle').textContent=authMode==='signup'?'Crea tu cuenta.':'Qué bueno verte.';
+  $('authDesc').textContent=authMode==='signup'?'Empieza a organizar tus proyectos y equipos.':'Entra para organizar tus equipos y horarios.';
+  $('authSubmit').textContent=authMode==='signup'?'Crear cuenta':'Iniciar sesión';
+  $('nameField').classList.toggle('hidden',authMode!=='signup');
+  $('switchText').textContent=authMode==='signup'?'¿Ya tienes cuenta?':'¿Aún no tienes cuenta?';
+  $('authSwitch').textContent=authMode==='signup'?'Iniciar sesión':'Crear cuenta';
+}
+$('startButton').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openEslivoAuth();});
+$('authSwitch').type='button';
+$('authSwitch').addEventListener('click',()=>{
+  authMode=authMode==='login'?'signup':'login';
+  $('authNotice').replaceChildren();
+  authUI();
+});
+async function submitEslivoAuth(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(authBusy)return;
+  authBusy=true;
+  const b=$('authSubmit');
+  b.disabled=true;
+  setEslivoScreen('auth');
+  $('authNotice').innerHTML='<div class="notice" role="status">Conectando con Supabase…</div>';
+  try{
+    const email=$('email').value.trim(), password=$('password').value;
+    if(!email||!password)throw new Error('Introduce el correo y la contraseña.');
+    const result=authMode==='signup'
+      ? await sb.auth.signUp({email,password,options:{data:{display_name:$('displayName').value.trim()},emailRedirectTo:location.origin+'/'}})
+      : await sb.auth.signInWithPassword({email,password});
+    if(result.error)throw result.error;
+    if(authMode==='signup'&&!result.data.session){
+      setEslivoScreen('auth');
+      $('authNotice').innerHTML='<div class="notice" role="status">Te hemos enviado un correo para confirmar la cuenta. Revisa también spam y vuelve aquí para iniciar sesión.</div>';
+      return;
+    }
+    const sessionUser=result.data.session?.user||result.data.user;
+    if(!sessionUser)throw new Error('Supabase no devolvió una sesión. Vuelve a intentarlo.');
+    user=sessionUser;
+    await enterApp();
+  }catch(err){
+    const m=String(err?.message||'');
+    const friendly=/invalid login credentials|invalid email or password/i.test(m)?'El correo o la contraseña son incorrectos.'
+      :/email not confirmed/i.test(m)?'Confirma tu correo antes de iniciar sesión. Revisa tu bandeja de entrada y spam.'
+      :/network|fetch|failed to fetch/i.test(m)?'No se pudo conectar con Supabase. Comprueba la conexión e inténtalo de nuevo.'
+      :m||'No se pudo iniciar sesión.';
+    setEslivoScreen('auth');
+    $('authNotice').innerHTML='<div class="notice" style="background:#3a171b;border-color:#8b4652;color:#ffd2d6" role="alert">'+esc(friendly)+'</div>';
+  }finally{
+    authBusy=false;
+    b.disabled=false;
+    authUI();
+  }
+}
 $('authForm').addEventListener('submit',submitEslivoAuth);
-$('authSubmit').type='button';
-$('authSubmit').addEventListener('click',submitEslivoAuth);
-$('authForm').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitEslivoAuth(e)}});
-sb.auth.onAuthStateChange((event,session)=>{if(session?.user){user=session.user;if($('app').classList.contains('hidden'))setTimeout(enterApp,0)}else if(event==='SIGNED_OUT'){$('app').classList.add('hidden');$('auth').classList.remove('hidden')}});$('logoutBtn').onclick=async()=>{if(saveTimer){clearTimeout(saveTimer);saveTimer=null}if(dirty)await saveNow();await sb.auth.signOut()};window.addEventListener('pagehide',()=>{if(dirty)saveNow()});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&dirty)saveNow()});
-async function enterApp(){if(!user)return;const welcome=document.getElementById('welcome');if(welcome)welcome.classList.add('hidden');$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('userEmail').textContent=user.email||'Cuenta';await loadProjects()}
+sb.auth.onAuthStateChange((event,session)=>{
+  if(session?.user){
+    user=session.user;
+    if(!authBusy && event!=='INITIAL_SESSION' && $('app').classList.contains('hidden'))enterApp();
+  }else if(event==='SIGNED_OUT'){
+    user=null;
+    if(!authBusy)setEslivoScreen('welcome');
+  }
+});
+async function enterApp(){
+  if(!user)return;
+  setEslivoScreen('app');
+  $('userEmail').textContent=user.email||'Cuenta';
+  if(appEntering)return;
+  appEntering=true;
+  try{await loadProjects();}
+  finally{appEntering=false;}
+}
+$('logoutBtn').onclick=async()=>{
+  if(saveTimer){clearTimeout(saveTimer);saveTimer=null}
+  if(dirty)await saveNow();
+  await sb.auth.signOut();
+};
+sb.auth.getSession().then(({data,error})=>{
+  if(error){setEslivoScreen('welcome');return;}
+  if(data?.session?.user){user=data.session.user;enterApp();}
+  else setEslivoScreen('welcome');
+}).catch(()=>setEslivoScreen('welcome'));
+window.addEventListener('pagehide',()=>{if(dirty)saveNow()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&dirty)saveNow()});
+authUI();
 async function loadProjects(){let{data,error}=await sb.from('eslivo_projects').select('id,name,created_at,updated_at').eq('owner_id',user.id).order('created_at');if(error){toast('No se pudieron cargar proyectos: '+error.message,true);return}projects=data||[];renderProjects();if(project&&projects.some(p=>p.id===project.id)){project=projects.find(p=>p.id===project.id);nameSide();return}if(projects.length)await selectProject(projects[0].id);else{project=null;$('projectContent').classList.add('hidden');$('noProject').classList.remove('hidden');$('pageActions').classList.add('hidden');$('currentProjectSide').textContent='Crea tu primer proyecto'}}
 function renderProjects(){$('projectList').innerHTML=projects.length?projects.map(p=>'<div class="project-row"><button class="project '+(p.id===project?.id?'active':'')+'" data-id="'+esc(p.id)+'"><span class="dot"></span><span class="pname">'+esc(p.name)+'</span></button><button class="delete-project" data-delete-project="'+esc(p.id)+'" title="Eliminar proyecto" aria-label="Eliminar proyecto '+esc(p.name)+'">×</button></div>').join(''):'<div class="muted small" style="padding:10px">Todavía no hay proyectos.</div>';document.querySelectorAll('.project[data-id]').forEach(b=>b.onclick=()=>selectProject(b.dataset.id));document.querySelectorAll('[data-delete-project]').forEach(b=>b.onclick=e=>{e.stopPropagation();deleteProject(b.dataset.deleteProject)})}async function deleteProject(id){const p=projects.find(x=>String(x.id)===String(id));if(!p)return;if(!confirm('¿Eliminar el proyecto «'+p.name+'» y todo su horario guardado? Esta acción no se puede deshacer.'))return;if(saveTimer){clearTimeout(saveTimer);saveTimer=null}if(project&&String(project.id)===String(id)&&dirty)await saveNow();try{const{error:se}=await sb.from('eslivo_schedule_data').delete().eq('project_id',id);if(se)throw se;const{error}=await sb.from('eslivo_projects').delete().eq('id',id).eq('owner_id',user.id);if(error)throw error;projects=projects.filter(x=>String(x.id)!==String(id));if(project&&String(project.id)===String(id)){project=null;schedule={people:[],shifts:[]};dirty=false;$('projectContent').classList.add('hidden');$('noProject').classList.remove('hidden');$('pageActions').classList.add('hidden');$('currentProjectSide').textContent=projects.length?'Selecciona un proyecto':'Crea tu primer proyecto';if(projects.length)await selectProject(projects[0].id)}renderProjects();toast('Proyecto eliminado')}catch(e){toast('No se pudo eliminar el proyecto: '+e.message,true)}}
 function nameSide(){$('currentProjectSide').textContent=project?.name||'Sin proyecto';$('eyebrow').textContent=project?.name||'Tu espacio de trabajo'}
