@@ -334,6 +334,11 @@ html,body{max-width:100%;overflow-x:hidden}
 #welcome .welcome-actions{position:relative!important;z-index:1000!important;pointer-events:auto!important}
 #welcome #startButton{position:relative!important;z-index:1001!important;display:inline-flex!important;pointer-events:auto!important;touch-action:manipulation!important}
 #welcome .welcome-preview,#welcome .welcome-noise,#welcome .welcome-orb,#welcome .preview-halo,#welcome .welcome-glow{pointer-events:none!important}
+/* FIX definitivo de interacción móvil */
+#welcome{position:relative!important;z-index:9999!important;pointer-events:auto!important}
+#welcome .welcome-layout,#welcome .welcome-actions{position:relative!important;z-index:10000!important;pointer-events:auto!important}
+#welcome #startButton{position:relative!important;z-index:2147483647!important;display:inline-flex!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
+#welcome #startButton *{pointer-events:none!important}
 </style></head><body><div class="spotlight-background" aria-hidden="true"></div>
 <div id="welcome" class="welcome-screen">
   <div class="welcome-noise"></div><div class="welcome-orb orb-one"></div><div class="welcome-orb orb-two"></div>
@@ -346,7 +351,7 @@ html,body{max-width:100%;overflow-x:hidden}
       <div class="welcome-pill"><span class="live-dot"></span> TODO TU EQUIPO, EN SINTONÍA</div>
       <h1>Menos lío.<br><span>Más equipo.</span></h1>
       <p class="welcome-copy">Organiza turnos, coordina personas y controla las horas desde un solo lugar. Tu negocio, más fácil de llevar.</p>
-      <div class="welcome-actions"><button id="startButton" type="button" class="launch-button" onclick="document.getElementById('welcome').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');window.scrollTo(0,0)"><span class="launch-label">Empezar ahora</span><span class="rocket-icon" aria-hidden="true">↗</span><span class="launch-flame" aria-hidden="true"></span><span class="launch-smoke" aria-hidden="true"></span></button><span class="cta-note">Configúralo en minutos <span>·</span> Sin complicaciones</span></div>
+      <div class="welcome-actions"><button id="startButton" type="button" class="launch-button" onclick="event.preventDefault();document.getElementById('welcome').style.setProperty('display','none','important');document.getElementById('welcome').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');document.getElementById('auth').style.setProperty('display','grid','important');window.scrollTo(0,0)" onpointerup="document.getElementById('welcome').style.setProperty('display','none','important');document.getElementById('welcome').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');document.getElementById('auth').style.setProperty('display','grid','important')"><span class="launch-label">Empezar ahora</span><span class="rocket-icon" aria-hidden="true">↗</span><span class="launch-flame" aria-hidden="true"></span><span class="launch-smoke" aria-hidden="true"></span></button><span class="cta-note">Configúralo en minutos <span>·</span> Sin complicaciones</span></div>
       <div class="welcome-proof"><span class="proof-icon">✓</span><span>Horarios claros</span><i></i><span class="proof-icon">✓</span><span>Equipo organizado</span><i></i><span class="proof-icon">✓</span><span>Todo bajo control</span></div>
     </section>
     <section class="welcome-preview" aria-label="Vista previa del panel de Eslivo">
