@@ -328,6 +328,12 @@ html,body{max-width:100%;overflow-x:hidden}
  #schedulePage .schedule th:not(:first-child),#schedulePage .schedule td:not(:first-child){font-size:9px!important}
  #schedulePage .schedule .shift{padding:3px 2px!important}
 }
+
+/* Fix robusto: evitar que las capas decorativas intercepten el toque del CTA */
+#welcome .welcome-content{position:relative!important;z-index:999!important;pointer-events:auto!important}
+#welcome .welcome-actions{position:relative!important;z-index:1000!important;pointer-events:auto!important}
+#welcome #startButton{position:relative!important;z-index:1001!important;display:inline-flex!important;pointer-events:auto!important;touch-action:manipulation!important}
+#welcome .welcome-preview,#welcome .welcome-noise,#welcome .welcome-orb,#welcome .preview-halo,#welcome .welcome-glow{pointer-events:none!important}
 </style></head><body><div class="spotlight-background" aria-hidden="true"></div>
 <div id="welcome" class="welcome-screen">
   <div class="welcome-noise"></div><div class="welcome-orb orb-one"></div><div class="welcome-orb orb-two"></div>
