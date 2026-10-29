@@ -439,48 +439,4 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
  });
 })();
 
-</script><script>
-/* Rescate independiente del acceso: muestra feedback aunque falle el script principal. */
-(function(){
- function installAuthRescue(){
-  var btn=document.getElementById('authSubmit'),form=document.getElementById('authForm'),notice=document.getElementById('authNotice');
-  if(!btn||!form||!notice)return;
-  // Evita que dos controladores compitan por el mismo botón.
-  btn.type='button';
-  btn.onclick=async function(ev){
-   if(ev)ev.preventDefault();
-   var email=(document.getElementById('email').value||'').trim(),password=document.getElementById('password').value;
-   if(!email||!password){notice.innerHTML='<div class="notice" role="alert">Introduce tu correo y contraseña.</div>';return}
-   if(!window.supabase||!window.supabase.createClient){notice.innerHTML='<div class="notice" role="alert">No se ha cargado el sistema de acceso. Comprueba tu conexión y recarga.</div>';return}
-   var signup=!!document.getElementById('nameField')&&!document.getElementById('nameField').classList.contains('hidden');
-   btn.disabled=true;btn.textContent=signup?'Creando cuenta…':'Conectando…';
-   notice.innerHTML='<div class="notice" role="status">Conectando con Eslivo. Esperando respuesta del servidor…</div>';
-   try{
-    var client=(typeof sb!=='undefined'&&sb&&sb.auth)?sb:window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    var request=signup?client.auth.signUp({email:email,password:password,options:{data:{display_name:(document.getElementById('displayName').value||'').trim()},emailRedirectTo:location.origin+'/'}}):client.auth.signInWithPassword({email:email,password:password});
-    var result=await Promise.race([request,new Promise(function(_,reject){setTimeout(function(){reject(new Error('El servidor tarda demasiado en responder. Comprueba la conexión e inténtalo de nuevo.'))},15000)})]);
-    if(result.error)throw result.error;
-    if(signup&&!result.data.session){notice.innerHTML='<div class="notice" role="status">Cuenta creada. Confirma tu correo y después inicia sesión.</div>';return}
-    if(!result.data.session)throw new Error('El servidor no ha creado una sesión. Si acabas de registrarte, confirma primero el correo.');
-    var authPanel=document.getElementById('auth'),appPanel=document.getElementById('app');
-    if(!authPanel||!appPanel)throw new Error('No se encuentra la pantalla principal de Eslivo. Recarga la página.');
-    authPanel.classList.add('hidden');appPanel.classList.remove('hidden');
-    var em=document.getElementById('userEmail');if(em)em.textContent=email;
-    notice.innerHTML='';
-    try{
-      var mainClient=client;
-      var projectsResult=await mainClient.from('eslivo_projects').select('id,name,created_at,updated_at').eq('owner_id',result.data.user.id).order('created_at');
-      if(projectsResult.error){var host=document.getElementById('toastHost');if(host)host.innerHTML='<div class="toast error">Has iniciado sesión, pero no se pudieron cargar los proyectos: '+String(projectsResult.error.message).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</div>';console.error('Error cargando proyectos',projectsResult.error)}
-    }catch(loadErr){console.error('Error consultando proyectos',loadErr)}
-   }catch(err){
-    var msg=String(err&&err.message||'Error desconocido');
-    if(/invalid login credentials|invalid email or password/i.test(msg))msg='El correo o la contraseña son incorrectos.';
-    else if(/email not confirmed/i.test(msg))msg='Confirma tu correo antes de iniciar sesión. Revisa también spam.';
-    else if(/user already registered/i.test(msg))msg='Este correo ya tiene una cuenta. Pulsa «Iniciar sesión».';
-    else if(/fetch|network|failed to fetch/i.test(msg))msg='No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.';
-    notice.innerHTML='<div class="notice" role="alert" style="background:#3a171b;border:1px solid #8b4652;color:#ffd2d6;padding:12px;border-radius:10px">'+msg.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</div>';
-   }finally{btn.disabled=false;btn.textContent=signup?'Crear cuenta':'Iniciar sesión'}
-  };
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installAuthRescue);else installAuthRescue();
-})();</script></body></html>
+</script></body></html>
