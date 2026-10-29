@@ -439,4 +439,43 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
  });
 })();
 
+</script><script>
+/* Rescate independiente del acceso: muestra feedback aunque falle el script principal. */
+(function(){
+ function installAuthRescue(){
+  var btn=document.getElementById('authSubmit'),form=document.getElementById('authForm'),notice=document.getElementById('authNotice');
+  if(!btn||!form||!notice)return;
+  btn.type='button';
+  btn.onclick=async function(ev){
+   if(ev)ev.preventDefault();
+   var email=(document.getElementById('email').value||'').trim(),password=document.getElementById('password').value;
+   notice.innerHTML='<div class="notice" role="status">Conectando con Eslivo…</div>';
+   if(!email||!password){notice.innerHTML='<div class="notice" role="alert">Introduce tu correo y contraseña.</div>';return}
+   if(!window.supabase||!window.supabase.createClient){notice.innerHTML='<div class="notice" role="alert">No se ha cargado el sistema de acceso. Comprueba tu conexión y recarga.</div>';return}
+   btn.disabled=true;btn.textContent='Comprobando acceso…';
+   try{
+    var client=window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    var signup=!!document.getElementById('nameField')&&!document.getElementById('nameField').classList.contains('hidden');
+    var result=signup?await client.auth.signUp({email:email,password:password,options:{data:{display_name:(document.getElementById('displayName').value||'').trim()},emailRedirectTo:location.origin+'/'}}):await client.auth.signInWithPassword({email:email,password:password});
+    if(result.error)throw result.error;
+    if(signup&&!result.data.session){notice.innerHTML='<div class="notice">Cuenta creada. Revisa tu correo para confirmar la dirección.</div>';return}
+    if(result.data.session){
+      notice.innerHTML='<div class="notice">Sesión iniciada. Abriendo Eslivo…</div>';
+      var app=document.getElementById('app'),auth=document.getElementById('auth');
+      if(typeof enterApp==='function'&&typeof sb!=='undefined'){user=result.data.user;await enterApp()}
+      else {auth.classList.add('hidden');app.classList.remove('hidden');var em=document.getElementById('userEmail');if(em)em.textContent=email;notice.innerHTML=''}
+      return;
+    }
+    throw new Error('El servidor no ha devuelto una sesión. Inténtalo otra vez.');
+   }catch(err){
+    var msg=String(err&&err.message||'Error desconocido');
+    if(/invalid login credentials/i.test(msg))msg='El correo o la contraseña son incorrectos.';
+    else if(/email not confirmed/i.test(msg))msg='Confirma tu correo antes de iniciar sesión.';
+    else if(/fetch|network/i.test(msg))msg='No se pudo conectar con el servidor. Comprueba tu conexión.';
+    notice.innerHTML='<div class="notice" role="alert" style="background:#3a171b;color:#ffd2d6">'+msg.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</div>';
+   }finally{btn.disabled=false;btn.textContent=signup?'Crear cuenta':'Iniciar sesión'}
+  };
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installAuthRescue);else installAuthRescue();
+})();
 </script></body></html>
