@@ -456,7 +456,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
    btn.disabled=true;btn.textContent=signup?'Creando cuenta…':'Conectando…';
    notice.innerHTML='<div class="notice" role="status">Conectando con Eslivo. Esperando respuesta del servidor…</div>';
    try{
-    var client=window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    var client=(typeof sb!=='undefined'&&sb&&sb.auth)?sb:window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     var request=signup?client.auth.signUp({email:email,password:password,options:{data:{display_name:(document.getElementById('displayName').value||'').trim()},emailRedirectTo:location.origin+'/'}}):client.auth.signInWithPassword({email:email,password:password});
     var result=await Promise.race([request,new Promise(function(_,reject){setTimeout(function(){reject(new Error('El servidor tarda demasiado en responder. Comprueba la conexión e inténtalo de nuevo.'))},15000)})]);
     if(result.error)throw result.error;
