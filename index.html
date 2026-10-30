@@ -125,10 +125,10 @@ input,select{background:#08170f;border-color:#2b4936}input:focus,select:focus{ou
 #welcome .orb-one{width:700px;height:700px;right:-130px;top:0;background:radial-gradient(circle,#1d492a70 0%,#102c1b42 38%,transparent 70%);animation:orbFloat 13s ease-in-out infinite}
 #welcome .orb-two{width:500px;height:500px;left:-280px;bottom:-220px;background:radial-gradient(circle,#254d2c66,transparent 70%);animation:orbFloat 16s ease-in-out infinite reverse}
 #welcome .welcome-nav{height:92px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;flex-shrink:0}
-#welcome .welcome-brand{display:flex;align-items:center;gap:11px;font-size:24px;font-weight:850;letter-spacing:-1.2px}
+#welcome .welcome-brand{display:flex;align-items:center;gap:14px;font-size:clamp(34px,4vw,48px);font-weight:900;letter-spacing:-2.4px}
 #welcome .brand-dot{color:#c9f36a}
-#welcome .welcome-logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#dfff91,#9acb48);color:#0b2412;box-shadow:0 7px 24px #b6e65b1f}
-#welcome .welcome-logo svg{width:26px;height:26px}
+#welcome .welcome-logo{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#dfff91,#9acb48);color:#0b2412;box-shadow:0 7px 24px #b6e65b1f}
+#welcome .welcome-logo svg{width:30px;height:30px}
 #welcome .nav-caption{font-size:clamp(25px,3vw,36px);line-height:1;letter-spacing:-1.8px;color:#f4f8ef;font-weight:850;align-self:center;margin-left:auto;padding:0;transform:none;white-space:nowrap}
 #welcome .welcome-layout{width:100%;max-width:1440px;flex:1;margin:0 auto;display:grid;grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr);align-items:center;gap:clamp(30px,5vw,88px);padding:58px 0 66px}
 #welcome .welcome-content{position:relative;z-index:2;max-width:600px;animation:welcomeEnter .8s cubic-bezier(.2,.8,.2,1) both}
@@ -360,7 +360,7 @@ html,body{max-width:100%;overflow-x:hidden}
   <div class="welcome-noise"></div><div class="welcome-orb orb-one"></div><div class="welcome-orb orb-two"></div>
   <header class="welcome-nav">
     <div class="welcome-brand"><span class="welcome-logo"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="5" y="8" width="30" height="27" rx="8" stroke="currentColor" stroke-width="2.4"/><path d="M12 5v7M28 5v7M6 16h28" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="m13 24 4.5 4.5L27 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Eslivo<span class="brand-dot">.</span></span></div>
-    <span class="nav-caption">Eslivo</span>
+    
   </header>
   <div class="welcome-layout">
     <section class="welcome-content">
