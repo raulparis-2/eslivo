@@ -488,7 +488,7 @@ monday.setHours(0,0,0,0);monday.setDate(now.getDate()-((now.getDay()+6)%7));
 const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
 const fmt=d=>d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit'});
 const byDay=days.map((_,i)=>shifts.filter(s=>+s.d===i).sort((a,b)=>String(a.s).localeCompare(String(b.s))));
-const maxRows=Math.max(1,...byDay.map(a=>a.length)),W=1400,H=1400,pad=48,gap=12,colW=(W-pad*2-gap*6)/7;
+const maxRows=Math.max(1,...byDay.map(a=>a.length)),W=1400,pad=48,gap=12,colW=(W-pad*2-gap*6)/7,top=pad+205,headH=78,bottom=75,H=top+headH+Math.max(100,maxRows*150)+bottom;
 const canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
 const x=canvas.getContext('2d');
 x.fillStyle='#f2f7ee';x.fillRect(0,0,W,H);
@@ -497,7 +497,7 @@ rr(pad,pad,W-pad*2,180,28,'#16351e');
 x.fillStyle='#d8ff8a';x.font='bold 30px system-ui';x.fillText('EquipoGO  /  HORARIO SEMANAL',pad+32,pad+52);
 x.fillStyle='#fff';x.font='bold 48px system-ui';x.fillText((project.name||'Equipo').slice(0,30),pad+32,pad+112);
 x.fillStyle='#d9e8d5';x.font='24px system-ui';x.fillText(fmt(monday)+' — '+fmt(sunday),pad+32,pad+151);
-const top=pad+205,headH=78,bottom=75,available=H-top-headH-bottom,slotH=Math.min(150,available/maxRows);
+const available=H-top-headH-bottom,slotH=Math.min(150,available/maxRows);
 days.forEach((day,i)=>{
  const xx=pad+i*(colW+gap),dt=new Date(monday);dt.setDate(monday.getDate()+i);
  rr(xx,top,colW,headH,15,'#dcebd3');
@@ -521,7 +521,7 @@ days.forEach((day,i)=>{
 });
 x.textAlign='right';x.fillStyle='#718372';x.font='19px system-ui';x.fillText(people.length+' personas · '+shifts.length+' turnos',W-pad,H-28);x.textAlign='left';
 const imageUrl=canvas.toDataURL('image/png');
-showModal('Horario semanal','Vista previa del horario completo del equipo. Puedes guardarlo como imagen cuadrada.','<div style="width:100%;max-width:760px;margin:0 auto"><img id="weeklySchedulePreview" src="'+imageUrl+'" alt="Horario semanal completo" style="display:block;width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:16px;border:1px solid var(--line,#dce5d8);background:#f2f7ee"><button type="button" id="downloadWeekImage" class="primary" style="width:100%;margin-top:12px">↓ Descargar imagen PNG</button></div>','Cerrar',async()=>closeModal());$('cancel').remove();
+showModal('Horario semanal','Vista previa del horario completo del equipo. Puedes guardarlo como imagen cuadrada.','<div style="width:100%;max-width:760px;margin:0 auto"><img id="weeklySchedulePreview" src="'+imageUrl+'" alt="Horario semanal completo" style="display:block;width:100%;height:auto;max-height:65vh;object-fit:contain;border-radius:16px;border:1px solid var(--line,#dce5d8);background:#f2f7ee"><button type="button" id="downloadWeekImage" class="primary" style="width:100%;margin-top:12px">↓ Descargar imagen PNG</button></div>','Cerrar',async()=>closeModal());$('cancel').remove();
 const scheduleModal=document.querySelector('#mb .modal');if(scheduleModal){scheduleModal.style.width='min(820px, calc(100vw - 36px))';scheduleModal.style.maxWidth='820px'}
 $('downloadWeekImage').onclick=()=>{const a=document.createElement('a');a.href=imageUrl;a.download='EquipoGO-horario-semanal-'+fmt(monday).replace('/','-')+'.png';document.body.append(a);a.click();a.remove();toast('Imagen descargada.')};
 }
