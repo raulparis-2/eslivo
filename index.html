@@ -319,6 +319,33 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 
 #tutorialLaunch{position:fixed;right:18px;bottom:18px;z-index:999990;border:1px solid #c9f36a;background:#183522;color:#eaffd1;border-radius:999px;padding:13px 18px;font-weight:800;box-shadow:0 8px 30px #0008}#tutorialTip{position:fixed;z-index:1000005;left:50%;bottom:20px;transform:translateX(-50%);width:min(440px,calc(100vw - 28px));padding:18px;background:#14271b;border:1px solid #c9f36a;border-radius:18px;box-shadow:0 18px 55px #000b;color:#f4fff7}#tutorialTip h3{margin:0 0 7px;font-size:17px}#tutorialTip p{margin:0;color:#c4d7c8;font-size:13px;line-height:1.5}#tutorialTip .tour-actions{display:flex;justify-content:space-between;gap:8px;margin-top:15px}#tutorialTip .tour-count{font-size:11px;color:#a9c1ae;margin-bottom:8px}.tour-focus{position:relative!important;z-index:1000002!important;box-shadow:0 0 0 4px #c9f36a,0 0 0 9999px #02080ac9!important;border-radius:10px!important}@media(max-width:780px){#tutorialLaunch{right:12px;bottom:12px;padding:11px 14px}#tutorialTip{bottom:12px}}
+
+/* LIQUID MORPH + GLASSMORPHISM + ASCII + ISOMETRIC */
+#app .main{position:relative;isolation:isolate}
+#app .main:before,#app .main:after{content:"";position:absolute;z-index:-1;pointer-events:none;width:clamp(180px,27vw,390px);aspect-ratio:1;border-radius:44% 56% 63% 37% / 42% 38% 62% 58%;filter:blur(42px);opacity:.13;animation:egLiquid 16s ease-in-out infinite alternate}
+#app .main:before{top:2%;right:4%;background:radial-gradient(circle at 35% 35%,#d8ff8a,#64b99a 55%,transparent 72%)}
+#app .main:after{bottom:7%;left:1%;width:clamp(150px,20vw,290px);background:radial-gradient(circle at 55% 45%,#9fe8bd,#b5e66c 52%,transparent 72%);animation-delay:-7s}
+@keyframes egLiquid{0%{border-radius:44% 56% 63% 37% / 42% 38% 62% 58%;transform:translate3d(0,0,0) rotate(0deg) scale(.96)}50%{border-radius:63% 37% 42% 58% / 58% 61% 39% 42%;transform:translate3d(-16px,18px,0) rotate(95deg) scale(1.06)}100%{border-radius:36% 64% 56% 44% / 40% 48% 52% 60%;transform:translate3d(12px,-12px,0) rotate(185deg) scale(1)}}
+#app .stat,#app .card,#app aside,#app .authcard,#app .modal,#app .toast{
+ background-color:rgba(15,35,24,.68)!important;
+ background-image:linear-gradient(135deg,rgba(255,255,255,.105),rgba(255,255,255,.018) 48%,rgba(201,243,106,.035))!important;
+ border-color:rgba(211,239,208,.19)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(1.35);
+ backdrop-filter:blur(22px) saturate(1.35);
+ box-shadow:0 18px 48px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12);
+}
+#app .stat{transform-style:preserve-3d}
+#app .stat:hover{transform:perspective(850px) rotateX(5deg) rotateY(-3deg) translateY(-5px)}
+#app .card{position:relative;overflow:hidden}
+#app .card:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.075),transparent 28%,transparent 70%,rgba(201,243,106,.035));opacity:.8}
+#app .card>*{position:relative}
+#app .eyebrow:after{content:"  [::]";font:700 10px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1px;color:rgba(201,243,106,.55);white-space:pre}
+#app .schedule-wrap{box-shadow:0 14px 30px rgba(20,50,25,.1),inset 0 1px rgba(255,255,255,.8)}
+#app .schedule-mobile .shift,#app .schedule-desktop .shift{transform:perspective(500px) rotateX(1deg);box-shadow:0 5px 12px rgba(25,55,25,.1)}
+#app .logo{animation:egLiquid 12s ease-in-out infinite alternate;transform-style:preserve-3d}
+#app .project.active,#app .nav button.active{backdrop-filter:blur(12px);box-shadow:inset 0 1px rgba(255,255,255,.12),0 7px 22px rgba(0,0,0,.12)}
+@media(prefers-reduced-motion:reduce){#app .main:before,#app .main:after,#app .logo{animation:none!important}#app .stat:hover{transform:none}}
+
 </style><style>
 /* EquipoGO: navegación principal más visible y calendario completo en móvil */
 .nav{gap:10px!important;margin:18px 0!important}
