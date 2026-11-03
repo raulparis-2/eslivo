@@ -614,7 +614,22 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 #pwa-welcome .pwa-install{background:#c9f36a;color:#142018;border:0}
 #pwa-welcome .pwa-web{background:#ffffff0b;border:1px solid #ffffff30;color:#f4f7fc}
 #pwa-welcome .pwa-help{font-size:12px;margin:18px 0 0;color:#91a2bd}
-#pwa-welcome .pwa-steps{margin:15px 0 0;padding:13px;border-radius:12px;background:#ffffff0b;text-align:left;font-size:13px;color:#d7e1f0}
+#pwa-welcome .pwa-steps{margin:16px 0 0;padding:0;text-align:left;color:#d7e1f0}
+#pwa-welcome .pwa-guide-title{font-size:18px;font-weight:800;margin:0 0 12px;color:#fff}
+#pwa-welcome .pwa-step{display:grid;grid-template-columns:42px 1fr;gap:11px;align-items:start;padding:13px;margin:10px 0;border:1px solid #ffffff1b;border-radius:15px;background:#ffffff08}
+#pwa-welcome .pwa-num{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#c9f36a;color:#142018;font-weight:900}
+#pwa-welcome .pwa-step strong{display:block;color:#fff;margin:1px 0 4px}
+#pwa-welcome .pwa-step p{font-size:12px;margin:0;color:#b9c6d9}
+#pwa-welcome .pwa-shot{margin-top:10px;border:1px solid #53627a;border-radius:10px;overflow:hidden;background:#202938;color:#f5f7fb;font-size:11px;box-shadow:0 5px 16px #0004}
+#pwa-welcome .pwa-shotbar{height:22px;padding:4px 8px;background:#111a29;color:#aab8ce;display:flex;justify-content:space-between}
+#pwa-welcome .pwa-address{margin:5px 7px;padding:5px 8px;border-radius:7px;background:#303c50;color:#dce5f3}
+#pwa-welcome .pwa-menu{padding:5px 7px 8px}
+#pwa-welcome .pwa-menu div{padding:6px 8px;border-radius:5px}
+#pwa-welcome .pwa-menu .selected{background:#c9f36a;color:#142018;font-weight:800}
+#pwa-welcome .pwa-note{font-size:11px;color:#91a2bd;margin:10px 2px 0}
+#pwa-welcome .pwa-install-now{margin-top:12px;background:#c9f36a;color:#142018;border:0}
+#pwa-welcome .pwa-back{margin-top:8px;background:transparent;color:#d7e1f0;width:100%}
+#pwa-welcome .pwa-step[hidden]{display:none}
 </style>
 <div id="pwa-welcome" role="dialog" aria-modal="true" aria-labelledby="pwa-title">
  <div class="pwa-card">
@@ -638,12 +653,16 @@ if(!standalone()&&!dismissed())screen.style.display='flex';
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;install.hidden=false;install.textContent='↓ Instalar EquipoGO'});
 window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide();try{localStorage.removeItem('equipogo-pwa-choice')}catch(e){}});
 continueBtn.addEventListener('click',()=>{try{localStorage.setItem('equipogo-pwa-choice','web')}catch(e){}hide()});
-install.addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();const result=await deferredPrompt.userChoice;deferredPrompt=null;if(result&&result.outcome==='accepted'){hide();return}return}
+const showGuide=()=>{
 steps.hidden=false;
-if(/iphone|ipad|ipod/i.test(navigator.userAgent)){steps.innerHTML='<strong>Para instalar en iPhone o iPad:</strong><br>1. Pulsa el botón Compartir del navegador.<br>2. Elige «Añadir a pantalla de inicio».<br>3. Confirma con «Añadir».'}
-else if(/android/i.test(navigator.userAgent)){steps.innerHTML='<strong>Para instalar en Android:</strong><br>Abre el menú ⋮ del navegador y pulsa «Instalar aplicación» o «Añadir a pantalla de inicio».'}
-else{steps.innerHTML='<strong>Para instalar en ordenador:</strong><br>Busca el icono de instalación en la barra de direcciones del navegador o abre el menú del navegador y selecciona «Instalar EquipoGO».'}
-});
+const mobile=/iphone|ipad|ipod/i.test(navigator.userAgent),android=/android/i.test(navigator.userAgent);
+if(mobile){steps.innerHTML='<div class="pwa-guide-title">Instálala en 3 pasos</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Pulsa Compartir</strong><p>En Safari, toca el botón de compartir de la parte inferior.</p><div class="pwa-shot"><div class="pwa-shotbar">Safari <span>•••</span></div><div class="pwa-address">equipo…vercel.app</div><div class="pwa-menu"><div>Copiar</div><div>Imprimir</div><div class="selected">Añadir a pantalla de inicio　＋</div></div></div></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Elige «Añadir a pantalla de inicio»</strong><p>Busca esa opción en el menú y tócala.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma con «Añadir»</strong><p>Encontrarás EquipoGO como un icono más en tu pantalla de inicio.</p></div></div>'}
+else if(android){steps.innerHTML='<div class="pwa-guide-title">Instálala en 3 pasos</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú de Chrome</strong><p>Toca los tres puntos ⋮ de la esquina superior derecha.</p><div class="pwa-shot"><div class="pwa-shotbar">Chrome <span>⋮</span></div><div class="pwa-address">equipo…vercel.app</div><div class="pwa-menu"><div>Nueva pestaña</div><div>Historial</div><div class="selected">Instalar aplicación　↓</div><div>Compartir…</div></div></div></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa «Instalar aplicación»</strong><p>Si aparece «Añadir a pantalla de inicio», también puedes elegir esa opción.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>Cuando termine, abre EquipoGO desde el nuevo icono.</p></div></div>'}
+else{steps.innerHTML='<div class="pwa-guide-title">Instálala en tu ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú de Chrome</strong><p>Pulsa los tres puntos ⋮ de la esquina superior derecha.</p><div class="pwa-shot"><div class="pwa-shotbar">Google Chrome <span>⋮</span></div><div class="pwa-address">https://equipo…vercel.app</div><div class="pwa-menu"><div>Nueva pestaña</div><div>Guardar y compartir　›</div><div class="selected">Instalar y crear acceso directo…　↗</div><div>Buscar…</div></div></div></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Elige «Instalar y crear acceso directo…»</strong><p>En el menú de Chrome, pulsa exactamente esa opción.</p><div class="pwa-shot"><div class="pwa-shotbar">Chrome · Instalar aplicación</div><div class="pwa-menu"><div>Nombre: EquipoGO</div><div class="selected">☑ Abrir como ventana</div><div style="text-align:right">Cancelar　 <b style="color:#c9f36a">Instalar</b></div></div></div></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong><p>Se creará la aplicación y su acceso directo. Después podrás abrir EquipoGO desde el escritorio o el menú Inicio.</p></div></div><p class="pwa-note">Las imágenes son ilustraciones orientativas de los menús de Chrome; el aspecto puede variar ligeramente según la versión.</p>'}
+if(deferredPrompt){const b=document.createElement('button');b.className='pwa-install-now';b.textContent='Instalar ahora';b.addEventListener('click',async()=>{deferredPrompt.prompt();const result=await deferredPrompt.userChoice;deferredPrompt=null;if(result&&result.outcome==='accepted')hide()});steps.append(b)}
+const back=document.createElement('button');back.className='pwa-back';back.textContent='Volver';back.addEventListener('click',()=>{steps.hidden=true});steps.append(back);
+};
+install.addEventListener('click',showGuide);
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 })();
 </script></body></html>
