@@ -659,7 +659,16 @@ window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide()});
 continueBtn.addEventListener('click',hide);
 const showGuide=()=>{
 steps.hidden=false;
-steps.innerHTML='<div class="pwa-guide-title">Instálala en 3 pasos</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Pulsa los tres puntos (⋮)</strong><p>Abre el menú de Chrome, en la esquina superior derecha.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>'
+const ua=navigator.userAgent;
+const isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isAndroid=/Android/i.test(ua);
+if(isIOS){
+ steps.innerHTML='<div class="pwa-guide-title">Añade EquipoGO a tu iPhone</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre esta página en Safari</strong><p>Si estás en otro navegador, abre el enlace equipogo.vercel.app en Safari.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa el botón Compartir</strong><p>Es el cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Si aparece «Abrir como app web», actívalo y pulsa «Añadir».</p></div></div><p class="pwa-help">No necesitas descargar ningún APK ni entrar en la App Store.</p>';
+}else if(isAndroid){
+ steps.innerHTML='<div class="pwa-guide-title">Instala EquipoGO en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong><p>En Chrome, pulsa los tres puntos de la esquina superior derecha.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa «Instalar aplicación» o «Añadir a pantalla de inicio»</strong><p>El nombre puede variar según el navegador.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma con «Instalar» o «Añadir»</strong><p>EquipoGO aparecerá en tu pantalla de inicio.</p></div></div><p class="pwa-help">Si Android descarga un archivo APK al compartir, no lo necesitas: comparte el enlace de EquipoGO.</p>';
+}else{
+ steps.innerHTML='<div class="pwa-guide-title">Instala EquipoGO en tu ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>';
+}
 if(deferredPrompt){const b=document.createElement('button');b.className='pwa-install-now';b.textContent='Instalar ahora';b.addEventListener('click',async()=>{deferredPrompt.prompt();const result=await deferredPrompt.userChoice;deferredPrompt=null;if(result&&result.outcome==='accepted')hide()});steps.append(b)}
 const back=document.createElement('button');back.className='pwa-back';back.textContent='Volver';back.addEventListener('click',()=>{steps.hidden=true});steps.append(back);
 };
