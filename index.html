@@ -651,9 +651,10 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
   <p>Instálala en tu dispositivo para abrirla como una aplicación, desde tu pantalla de inicio y sin la barra del navegador.</p>
   <div class="pwa-actions">
    <button type="button" class="pwa-install" id="pwa-install">↓ Instalar EquipoGO</button>
+   <button type="button" class="pwa-web" id="pwa-ios-help" style="border:1px solid #c9f36a55;color:#d9e7d9;background:#17291f">¿Tienes iPhone? Ver pasos para instalar</button>
    <button type="button" class="pwa-web" id="pwa-continue">Usar versión web</button>
   </div>
-  <details class="pwa-help-dropdown" id="pwa-help-dropdown"><summary>¿No te deja instalar? Ayuda</summary><div class="pwa-steps" id="pwa-steps"></div></details>
+  <details class="pwa-help-dropdown" id="pwa-help-dropdown"><summary>Guía de instalación para iPhone, Android y ordenador</summary><div class="pwa-steps" id="pwa-steps"></div></details>
   <p class="pwa-help">También puedes seguir usando EquipoGO desde el navegador.</p>
  </div>
 </div>
@@ -666,11 +667,15 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide()});
 continueBtn.addEventListener('click',hide);
 const help=document.getElementById('pwa-help-dropdown');
+const iosHelp=document.getElementById('pwa-ios-help');
 const showGuide=()=>{
  steps.hidden=false;
  steps.innerHTML='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p><div class="pwa-guide-title" style="margin-top:18px">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div><div class="pwa-guide-title" style="margin-top:18px">Instalar en ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>';
  };
  help.addEventListener('toggle',()=>{if(help.open)showGuide()});
+iosHelp.addEventListener('click',()=>{help.open=true;showGuide();help.scrollIntoView({behavior:'smooth',block:'nearest'})});
+const iosDevice=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+if(iosDevice){help.open=true;showGuide()}
  install.addEventListener('click',async()=>{
  if(deferredPrompt){
   deferredPrompt.prompt();
