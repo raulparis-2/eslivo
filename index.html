@@ -647,12 +647,11 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 <script>
 (()=>{let deferredPrompt=null;const screen=document.getElementById('pwa-welcome'),install=document.getElementById('pwa-install'),continueBtn=document.getElementById('pwa-continue'),steps=document.getElementById('pwa-steps');if(!screen)return;
 const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
-const dismissed=()=>{try{return localStorage.getItem('equipogo-pwa-choice')==='web'}catch(e){return false}};
 const hide=()=>{screen.style.display='none'};
-if(!standalone()&&!dismissed())screen.style.display='flex';
+if(standalone()){screen.style.display='none'}else{screen.style.display='flex'}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;install.hidden=false;install.textContent='↓ Instalar EquipoGO'});
-window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide();try{localStorage.removeItem('equipogo-pwa-choice')}catch(e){}});
-continueBtn.addEventListener('click',()=>{try{localStorage.setItem('equipogo-pwa-choice','web')}catch(e){}hide()});
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide()});
+continueBtn.addEventListener('click',hide);
 const showGuide=()=>{
 steps.hidden=false;
 const mobile=/iphone|ipad|ipod/i.test(navigator.userAgent),android=/android/i.test(navigator.userAgent);
