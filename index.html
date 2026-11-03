@@ -667,19 +667,11 @@ window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide()});
 continueBtn.addEventListener('click',hide);
 const help=document.getElementById('pwa-help-dropdown');
 const showGuide=()=>{
-const ua=navigator.userAgent;
-const isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-const isAndroid=/Android/i.test(ua);
-steps.hidden=false;
-if(isIOS){
- steps.innerHTML='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación desde la pantalla de inicio se realiza con Safari.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>El icono es un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Elige «Añadir a pantalla de inicio»</strong><p>Después pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">iOS no permite que una web abra directamente ese menú: debes confirmar estos pasos manualmente.</p>';
-}else if(isAndroid){
- steps.innerHTML='<div class="pwa-guide-title">Si no se abre la instalación en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa «Instalar» o «Añadir a pantalla de inicio»</strong><p>Si no aparece el aviso, abre el menú ⋮ de Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues ni compartas archivos APK. Solo necesitas instalar desde el navegador.</p></div></div>';
-}else{
- steps.innerHTML='<div class="pwa-guide-title">Instalar en ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>';
-}
-};
-install.addEventListener('click',async()=>{
+ steps.hidden=false;
+ steps.innerHTML='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p><div class="pwa-guide-title" style="margin-top:18px">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div><div class="pwa-guide-title" style="margin-top:18px">Instalar en ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>';
+ };
+ help.addEventListener('toggle',()=>{if(help.open)showGuide()});
+ install.addEventListener('click',async()=>{
  if(deferredPrompt){
   deferredPrompt.prompt();
   const result=await deferredPrompt.userChoice;
