@@ -382,7 +382,7 @@ html,body{max-width:100%;overflow-x:hidden}
 #welcome .welcome-layout,#welcome .welcome-actions{position:relative!important;z-index:10000!important;pointer-events:auto!important}
 #welcome #startButton{position:relative!important;z-index:2147483647!important;display:inline-flex!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
 #welcome #startButton *{pointer-events:none!important}
-</style></head><body><div class="spotlight-background" aria-hidden="true"></div>
+</style><meta name="theme-color" content="#0b1020"><meta name="description" content="EquipoGO: organiza empleados, turnos y horarios de tu negocio."><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon.svg" type="image/svg+xml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="EquipoGO"><link rel="apple-touch-icon" href="/icon.svg"></head><body><div class="spotlight-background" aria-hidden="true"></div>
 <div id="welcome" class="welcome-screen">
   <div class="welcome-noise"></div><div class="welcome-orb orb-one"></div><div class="welcome-orb orb-two"></div>
   <header class="welcome-nav">
@@ -603,4 +603,47 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 (()=>{const launch=document.getElementById('tutorialLaunch');if(!launch)return;let index=0;const steps=[{sel:'#createFirst',title:'1. Crea tu proyecto',desc:'Empieza creando el proyecto donde organizarás tu equipo y sus horarios.',action:'click'},{sel:'#projectName',title:'2. Nombre del proyecto',desc:'Escribe el nombre de tu negocio o equipo. Por ejemplo: Restaurante o Tienda.'},{sel:'#mf button[type="submit"]',title:'3. Guarda el proyecto',desc:'Pulsa para crear tu espacio de trabajo.',action:'submit',delay:1200},{sel:'[data-page="people"]',title:'4. Tu equipo',desc:'Entra en «Mi equipo». Aquí añadirás a las personas que tendrán turnos.',action:'click'},{sel:'#addPersonBtn',title:'5. Añadir persona',desc:'Pulsa este botón para abrir la ficha del trabajador.',action:'click'},{sel:'#pn',title:'6. Nombre',desc:'Escribe el nombre y apellidos de la persona.'},{sel:'#pr',title:'7. Puesto o función',desc:'Por ejemplo: Camarero, Dependienta o Encargado.'},{sel:'#pt',title:'8. Horas objetivo',desc:'Indica cuántas horas debería trabajar a la semana. Ejemplo: 40.'},{sel:'#pphone',title:'9. Teléfono',desc:'Añade el teléfono con prefijo +34 para compartir turnos por WhatsApp. Email y foto son opcionales.'},{sel:'#mf button[type="submit"]',title:'10. Guardar persona',desc:'Pulsa para guardar la ficha.',action:'submit',delay:900},{sel:'[data-page="schedule"]',title:'11. Ir al horario',desc:'Vuelve a «Horario semanal».',action:'click'},{sel:'#addShiftBtn',title:'12. Añadir turno',desc:'Pulsa para crear un turno.',action:'click'},{sel:'#sp',title:'13. Persona',desc:'Selecciona quién trabajará.'},{sel:'#sd',title:'14. Día',desc:'Elige el día de la semana.'},{sel:'#ss',title:'15. Hora de inicio',desc:'Indica la hora de entrada. Ejemplo: 09:00.'},{sel:'#se',title:'16. Hora de fin',desc:'Indica la hora de salida. Ejemplo: 17:00.'},{sel:'#mf button[type="submit"]',title:'17. Guardar turno',desc:'Pulsa para guardar el turno. Repite el proceso para el resto del equipo.',action:'submit',delay:900},{sel:'#exportWeekImage',title:'18. Ver horario',desc:'Abre una vista previa cuadrada del horario completo y descárgala como imagen PNG.'}];let tip,target;function clear(){document.querySelectorAll('.tour-focus').forEach(e=>e.classList.remove('tour-focus'));tip?.remove();target=null}function show(){clear();if(index>=steps.length){launch.textContent='✦ Cómo usar EquipoGO';return}const s=steps[index];target=document.querySelector(s.sel);tip=document.createElement('div');tip.id='tutorialTip';if(target){target.classList.add('tour-focus');target.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}tip.innerHTML='<div class="tour-count">PASO '+(index+1)+' DE '+steps.length+'</div><h3>'+s.title+'</h3><p>'+(target?s.desc:'Este elemento no está disponible ahora mismo. Puedes continuar.')+'</p><div class="tour-actions"><button id="tourExit" class="ghost">Salir</button><div style="display:flex;gap:7px"><button id="tourSkip" class="ghost">Saltar</button><button id="tourNext" class="primary">'+(s.action?'Abrir / continuar →':'Siguiente →')+'</button></div></div>';document.body.append(tip);tip.querySelector('#tourExit').textContent='Saltar tutorial';tip.querySelector('#tourExit').onclick=stop;tip.querySelector('#tourSkip').onclick=next;tip.querySelector('#tourNext').onclick=()=>{if(target&&s.action)target.click();setTimeout(next,s.action?(s.delay||650):0)}}function next(){index++;show()}function stop(){clear();launch.textContent='✦ Cómo usar EquipoGO'}launch.onclick=()=>{index=0;launch.textContent='Tutorial en curso';show()};window.startEquipoGOTutorial=()=>{index=0;launch.textContent='Tutorial en curso';show()}})();
 // Inclinación 3D ligada al movimiento del cursor sobre toda la tarjeta.
  (()=>{const card=document.querySelector('#welcome .welcome-preview'),panel=document.querySelector('#welcome .preview-window');if(!card||!panel)return;const move=e=>{if(e.pointerType&&e.pointerType!=='mouse')return;const r=card.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));const ry=(x-.5)*22,rx=(.5-y)*14;panel.style.transform='perspective(1400px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-6px)';panel.style.borderColor='#c9f36a70';};card.addEventListener('mousemove',move);card.addEventListener('mouseleave',()=>{panel.style.transform='';panel.style.borderColor='';});})();
+</script><style>
+#pwa-welcome{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:22px;background:radial-gradient(ellipse at 50% 0%,#26365a 0%,#0b1020 68%);color:#f4f7fc;font:15px/1.5 system-ui,Segoe UI,sans-serif}
+#pwa-welcome .pwa-card{width:min(100%,480px);padding:30px;border:1px solid #ffffff24;border-radius:26px;background:#152139eF;box-shadow:0 25px 90px #0008;text-align:center;backdrop-filter:blur(20px)}
+#pwa-welcome .pwa-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px}
+#pwa-welcome h1{margin:0 0 8px;font-size:29px;letter-spacing:-1px}
+#pwa-welcome p{color:#b9c6d9;margin:0 0 22px}
+#pwa-welcome .pwa-actions{display:grid;gap:11px}
+#pwa-welcome button{width:100%;padding:14px 18px;border-radius:13px;font-weight:750;font-size:15px}
+#pwa-welcome .pwa-install{background:#c9f36a;color:#142018;border:0}
+#pwa-welcome .pwa-web{background:#ffffff0b;border:1px solid #ffffff30;color:#f4f7fc}
+#pwa-welcome .pwa-help{font-size:12px;margin:18px 0 0;color:#91a2bd}
+#pwa-welcome .pwa-steps{margin:15px 0 0;padding:13px;border-radius:12px;background:#ffffff0b;text-align:left;font-size:13px;color:#d7e1f0}
+</style>
+<div id="pwa-welcome" role="dialog" aria-modal="true" aria-labelledby="pwa-title">
+ <div class="pwa-card">
+  <img class="pwa-logo" src="/icon.svg" alt="EquipoGO">
+  <h1 id="pwa-title">Lleva EquipoGO contigo</h1>
+  <p>Instálala en tu dispositivo para abrirla como una aplicación, desde tu pantalla de inicio y sin la barra del navegador.</p>
+  <div class="pwa-actions">
+   <button type="button" class="pwa-install" id="pwa-install">↓ Instalar EquipoGO</button>
+   <button type="button" class="pwa-web" id="pwa-continue">Usar versión web</button>
+  </div>
+  <div class="pwa-steps" id="pwa-steps" hidden></div>
+  <p class="pwa-help">Puedes seguir usando la versión web si lo prefieres.</p>
+ </div>
+</div>
+<script>
+(()=>{let deferredPrompt=null;const screen=document.getElementById('pwa-welcome'),install=document.getElementById('pwa-install'),continueBtn=document.getElementById('pwa-continue'),steps=document.getElementById('pwa-steps');if(!screen)return;
+const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+const dismissed=()=>{try{return localStorage.getItem('equipogo-pwa-choice')==='web'}catch(e){return false}};
+const hide=()=>{screen.style.display='none'};
+if(!standalone()&&!dismissed())screen.style.display='flex';
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;install.hidden=false;install.textContent='↓ Instalar EquipoGO'});
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide();try{localStorage.removeItem('equipogo-pwa-choice')}catch(e){}});
+continueBtn.addEventListener('click',()=>{try{localStorage.setItem('equipogo-pwa-choice','web')}catch(e){}hide()});
+install.addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();const result=await deferredPrompt.userChoice;deferredPrompt=null;if(result&&result.outcome==='accepted'){hide();return}return}
+steps.hidden=false;
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)){steps.innerHTML='<strong>Para instalar en iPhone o iPad:</strong><br>1. Pulsa el botón Compartir del navegador.<br>2. Elige «Añadir a pantalla de inicio».<br>3. Confirma con «Añadir».'}
+else if(/android/i.test(navigator.userAgent)){steps.innerHTML='<strong>Para instalar en Android:</strong><br>Abre el menú ⋮ del navegador y pulsa «Instalar aplicación» o «Añadir a pantalla de inicio».'}
+else{steps.innerHTML='<strong>Para instalar en ordenador:</strong><br>Busca el icono de instalación en la barra de direcciones del navegador o abre el menú del navegador y selecciona «Instalar EquipoGO».'}
+});
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+})();
 </script></body></html>
