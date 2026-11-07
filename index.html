@@ -673,7 +673,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 #pwa-welcome .pwa-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px}
 #pwa-welcome h1{margin:0 0 8px;font-size:29px;letter-spacing:-1px}
 #pwa-welcome p{color:#b9c6d9;margin:0 0 22px}
-#pwa-welcome .pwa-actions{display:grid;gap:11px}
+#pwa-welcome .pwa-actions{display:flex;flex-direction:column;gap:11px}#pwa-welcome #pwa-continue{order:1}#pwa-welcome #pwa-install{order:2}#pwa-welcome #pwa-ios-help{order:3}
 #pwa-welcome button{width:100%;padding:14px 18px;border-radius:13px;font-weight:750;font-size:15px}
 #pwa-welcome .pwa-install{background:#c9f36a;color:#142018;border:0}
 #pwa-welcome .pwa-web{background:#ffffff0b;border:1px solid #ffffff30;color:#f4f7fc}
@@ -714,6 +714,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 </div>
 <script>
 (()=>{let deferredPrompt=null;const screen=document.getElementById('pwa-welcome'),install=document.getElementById('pwa-install'),continueBtn=document.getElementById('pwa-continue'),steps=document.getElementById('pwa-steps');if(!screen)return;
+const actions=screen.querySelector('.pwa-actions');if(actions){const start=actions.querySelector('#pwa-continue'),installButton=actions.querySelector('#pwa-install'),ios=actions.querySelector('#pwa-ios-help');if(start)actions.appendChild(start);if(installButton)actions.appendChild(installButton);if(ios)actions.appendChild(ios)}
 const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
 const hide=()=>{screen.style.display='none'};
 if(standalone()){screen.style.display='none'}else{screen.style.display='flex'}
