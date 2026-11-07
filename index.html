@@ -724,30 +724,25 @@ continueBtn.addEventListener('click',()=>{hide();openEquipoGOAuth()});
 const help=document.getElementById('pwa-help-dropdown');
 const iosHelp=document.getElementById('pwa-ios-help');
 const showGuide=(platform)=>{
+ help.open=true;
  steps.hidden=false;
  const iosGuide='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p>';
  const androidGuide='<div class="pwa-guide-title">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div>';
- steps.innerHTML=(platform==='ios'?iosGuide:androidGuide);\n };
- help.addEventListener('toggle',()=>{if(help.open)showGuide('ios')});
-iosHelp.addEventListener('click',()=>{help.open=true;showGuide('ios');help.scrollIntoView({behavior:'smooth',block:'nearest'})});
-const iosDevice=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-if(iosDevice){help.open=true;showGuide('ios')}
- install.addEventListener('click',async()=>{
- if(deferredPrompt){
+ steps.innerHTML=platform==='ios'?iosGuide:androidGuide;
+};
+iosHelp.addEventListener('click',()=>{showGuide('ios');help.scrollIntoView({behavior:'smooth',block:'nearest'})});
+install.addEventListener('click',async()=>{
+ const ua=navigator.userAgent;
+ const isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ if(isIOS){showGuide('ios');return}
+ if(/Android/i.test(ua)&&deferredPrompt){
   deferredPrompt.prompt();
   const result=await deferredPrompt.userChoice;
   deferredPrompt=null;
-  if(result&&result.outcome==='accepted')hide();
-  else {help.open=true;showGuide()}
-  return;
+  if(result&&result.outcome==='accepted'){hide();return}
  }
- const ua=navigator.userAgent;
- const isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
- if(isIOS){help.open=true;showGuide();return}
- if(/Android/i.test(ua)){help.open=true;showGuide();return}
- help.open=true;showGuide();
+ showGuide('android');
 });
-
 // Actualizaciones de EquipoGO: se descargan en segundo plano y se aplican cuando el usuario lo decide.
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
  window.addEventListener('load',async()=>{
