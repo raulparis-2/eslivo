@@ -721,6 +721,42 @@ if(iosDevice){help.open=true;showGuide()}
  if(/Android/i.test(ua)){help.open=true;showGuide();return}
  help.open=true;showGuide();
 });
-if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+
+// Actualizaciones de EquipoGO: se descargan en segundo plano y se aplican cuando el usuario lo decide.
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+ window.addEventListener('load',async()=>{
+  try{
+   const reg=await navigator.serviceWorker.register('/sw.js');
+   let reloading=false;
+   const showUpdate=()=>{
+    if(!reg.waiting||!navigator.serviceWorker.controller||document.getElementById('egUpdateNotice'))return;
+    const box=document.createElement('div');
+    box.id='egUpdateNotice';
+    box.innerHTML='<div><strong>✨ Nueva versión de EquipoGO</strong><span>La actualización está lista. Tus equipos y horarios seguirán guardados.</span></div><button type="button" id="egApplyUpdate">Actualizar ahora</button><button type="button" id="egLaterUpdate" aria-label="Cerrar">×</button>';
+    box.style.cssText='position:fixed;z-index:1000001;left:16px;right:16px;bottom:16px;max-width:560px;margin:auto;padding:14px 16px;background:#10251c;border:1px solid #8dbb52;border-radius:16px;box-shadow:0 16px 50px #0009;display:flex;align-items:center;gap:12px;color:#f4fff7;font:14px system-ui,sans-serif';
+    const info=box.querySelector('div');info.style.cssText='display:grid;gap:4px;flex:1;min-width:0';
+    info.querySelector('span').style.cssText='font-size:12px;color:#b8cbb9';
+    const apply=box.querySelector('#egApplyUpdate');apply.style.cssText='border:0;border-radius:10px;padding:10px 13px;background:#c9f36a;color:#132311;font-weight:800;white-space:nowrap;cursor:pointer';
+    const later=box.querySelector('#egLaterUpdate');later.style.cssText='border:0;background:transparent;color:#dcebdc;font-size:22px;cursor:pointer;padding:2px 5px';
+    apply.addEventListener('click',()=>{apply.disabled=true;apply.textContent='Actualizando…';reg.waiting?.postMessage({type:'SKIP_WAITING'})});
+    later.addEventListener('click',()=>box.remove());
+    document.body.appendChild(box);
+   };
+   if(reg.waiting)showUpdate();
+   reg.addEventListener('updatefound',()=>{
+    const installing=reg.installing;
+    if(!installing)return;
+    installing.addEventListener('statechange',()=>{if(installing.state==='installed')showUpdate()});
+   });
+   navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(reloading)return;reloading=true;window.location.reload();
+   });
+   const check=()=>{if(document.visibilityState==='visible')reg.update().catch(()=>{})};
+   setTimeout(check,5000);
+   setInterval(check,60*60*1000);
+   document.addEventListener('visibilitychange',check);
+  }catch(e){console.warn('No se pudo comprobar si hay actualizaciones:',e)}
+ });
+}
 })();
 </script></body></html>
