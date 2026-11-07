@@ -704,9 +704,9 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
   <h1 id="pwa-title">Lleva EquipoGO contigo</h1>
   <p>Instálala en tu dispositivo para abrirla como una aplicación, desde tu pantalla de inicio y sin la barra del navegador.</p>
   <div class="pwa-actions">
+   <button type="button" class="pwa-web" id="pwa-continue">Empezar ahora</button>
    <button type="button" class="pwa-install" id="pwa-install">↓ Instalar EquipoGO</button>
    <button type="button" class="pwa-web" id="pwa-ios-help" style="border:1px solid #c9f36a55;color:#d9e7d9;background:#17291f">¿Tienes iPhone? Ver pasos para instalar</button>
-   <button type="button" class="pwa-web" id="pwa-continue">Usar versión web</button>
   </div>
   <details class="pwa-help-dropdown" id="pwa-help-dropdown"><summary>Guía de instalación para iPhone, Android y ordenador</summary><div class="pwa-steps" id="pwa-steps"></div></details>
   <p class="pwa-help">También puedes seguir usando EquipoGO desde el navegador.</p>
@@ -783,6 +783,10 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
  });
 }
 })();
-</script><script>
+</script><style>
+/* En la app instalada se entra directamente; el CTA queda solo en la web. */
+html.eg-standalone #startButton{display:none!important}
+</style>
+<script>
 (()=>{const splash=document.getElementById('egLaunchSplash');if(!splash||!document.documentElement.classList.contains('eg-standalone'))return;const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;const finish=()=>{splash.classList.add('eg-leaving');setTimeout(()=>splash.remove(),400)};setTimeout(finish,reduced?650:2450)})();
 </script></body></html>
