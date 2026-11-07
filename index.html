@@ -584,13 +584,13 @@ $('exportWeekImage').onclick=exportWeeklyScheduleImage;function changed(){if(loa
    toast('WhatsApp Web se ha abierto con el mensaje. La imagen PNG se ha descargado para adjuntarla.');
   }
  }else if(channel==='mail'&&p.email){
-  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-   try{await navigator.share({files:[file],title:'Tu horario semanal - '+(project?.name||'EquipoGO'),text:msg});toast('Selecciona tu aplicación de correo para enviar el mensaje y la imagen adjunta.')}catch(e){if(e.name!=='AbortError')toast('No se pudo abrir el menú para compartir.',true)}
-  }else{
-   downloadImage();
-   window.location.href='mailto:'+encodeURIComponent(p.email)+'?subject='+encodeURIComponent('Tu horario semanal - '+(project?.name||'EquipoGO'))+'&body='+encodeURIComponent(msg+'\\n\\nAdjunto el horario en formato PNG.');
-   toast('Se ha preparado el correo y descargado la imagen. Adjunta el PNG antes de enviarlo.');
-  }
+  downloadImage();
+  const subject='Tu horario semanal - '+(project?.name||'EquipoGO');
+  const emailBody=msg.replace(/\\*/g,'')+'\\n\\nAdjunta el archivo PNG que se acaba de descargar.';
+  const gmailUrl='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(p.email)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(emailBody);
+  const gmailWindow=window.open(gmailUrl,'_blank');
+  if(!gmailWindow)window.location.href=gmailUrl;
+  toast('Gmail se ha abierto con el destinatario y el mensaje. Adjunta el PNG descargado antes de enviar.');
  }else{toast('Añade el contacto correspondiente a la ficha de esta persona.',true)}
 },'image/png')}
 
