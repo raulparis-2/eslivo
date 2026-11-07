@@ -450,7 +450,7 @@ html.eg-standalone #egLaunchSplash{display:flex}
 if(!window.supabase){document.getElementById('authNotice').innerHTML='<div class="notice" style="background:#3a171b;border-color:#8b4652;color:#ffd2d6">No se pudo cargar el sistema de acceso. Comprueba tu conexión y recarga la página.</div>';throw new Error('Supabase SDK no cargado');}
 const sb=window.supabase.createClient('https://owephwtinlaoizmuniyd.supabase.co','sb_publishable_D6iLtlgxiXeWoJ6Mf4HrCw_4UP1p61y',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}),$=id=>document.getElementById(id),days=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];let user=null,projects=[],project=null,schedule={people:[],shifts:[]},page='schedule',authMode='login',saveTimer=null,dirty=false,loading=false;let mobileScheduleDay=(new Date().getDay()+6)%7;
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function toast(s,error=false){let e=document.createElement('div');e.className='toast'+(error?' error':'');e.textContent=s;$('toastHost').replaceChildren(e);setTimeout(()=>e.remove(),3500)}function blank(){return{people:[],shifts:[]}}function norm(s){return{people:Array.isArray(s?.people)?s.people:[],shifts:Array.isArray(s?.shifts)?s.shifts:[]}}
-async function openEquipoGOAuth(){await authBootstrap;if(user){await enterApp();return}const welcome=document.getElementById('welcome'),auth=document.getElementById('auth');if(!welcome||!auth)return;welcome.classList.add('hidden');auth.classList.remove('hidden');window.scrollTo({top:0,behavior:'auto'});const email=document.getElementById('email');if(email)setTimeout(()=>email.focus({preventScroll:true}),80)}document.addEventListener('click',e=>{const button=e.target.closest('#startButton');if(!button)return;e.preventDefault();e.stopPropagation();openEquipoGOAuth()},true);document.getElementById('startButton')?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openEquipoGOAuth()}});
+async function openEquipoGOAuth(){await authBootstrap;if(user){await enterApp();return}const welcome=document.getElementById('welcome'),auth=document.getElementById('auth');if(!welcome||!auth)return;welcome.classList.add('hidden');auth.classList.remove('hidden');window.scrollTo({top:0,behavior:'auto'});const email=document.getElementById('email');if(email)setTimeout(()=>email.focus({preventScroll:true}),80)}function showEquipoGOStartOptions(){const screen=document.getElementById('pwa-welcome');if(screen)screen.style.display='flex'}document.addEventListener('click',e=>{const button=e.target.closest('#startButton');if(!button)return;e.preventDefault();e.stopPropagation();showEquipoGOStartOptions()},true);document.getElementById('startButton')?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showEquipoGOStartOptions()}});
 /* El botón Empezar ahora permanece estático; el clic sigue abriendo el acceso. */
 function authUI(){$('authTitle').textContent=authMode==='signup'?'Crea tu cuenta.':'Qué bueno verte.';$('authDesc').textContent=authMode==='signup'?'Empieza a organizar tus proyectos y equipos.':'Entra para organizar tus equipos y horarios.';$('authSubmit').textContent=authMode==='signup'?'Crear cuenta':'Iniciar sesión';$('nameField').classList.toggle('hidden',authMode!=='signup');$('switchText').textContent=authMode==='signup'?'¿Ya tienes cuenta?':'¿Aún no tienes cuenta?';$('authSwitch').textContent=authMode==='signup'?'Iniciar sesión':'Crear cuenta'}$('authSwitch').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('authNotice').innerHTML='';authUI()};
 
@@ -673,7 +673,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 #pwa-welcome .pwa-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px}
 #pwa-welcome h1{margin:0 0 8px;font-size:29px;letter-spacing:-1px}
 #pwa-welcome p{color:#b9c6d9;margin:0 0 22px}
-#pwa-welcome .pwa-actions{display:flex;flex-direction:column;gap:11px}#pwa-welcome #pwa-continue{order:1}#pwa-welcome #pwa-install{order:2}#pwa-welcome #pwa-ios-help{order:3}
+#pwa-welcome .pwa-actions{display:flex;flex-direction:column;gap:11px}#pwa-welcome #pwa-install{order:1}#pwa-welcome #pwa-ios-help{order:2}#pwa-welcome #pwa-continue{order:3}
 #pwa-welcome button{width:100%;padding:14px 18px;border-radius:13px;font-weight:750;font-size:15px}
 #pwa-welcome .pwa-install{background:#c9f36a;color:#142018;border:0}
 #pwa-welcome .pwa-web{background:#ffffff0b;border:1px solid #ffffff30;color:#f4f7fc}
@@ -701,12 +701,12 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 <div id="pwa-welcome" role="dialog" aria-modal="true" aria-labelledby="pwa-title">
  <div class="pwa-card">
   <img class="pwa-logo" src="/icon.svg" alt="EquipoGO">
-  <h1 id="pwa-title">Lleva EquipoGO contigo</h1>
-  <p>Instálala en tu dispositivo para abrirla como una aplicación, desde tu pantalla de inicio y sin la barra del navegador.</p>
+  <h1 id="pwa-title">¿Cómo quieres empezar?</h1>
+  <p>Elige cómo quieres usar EquipoGO. Puedes instalarla o entrar directamente desde el navegador.</p>
   <div class="pwa-actions">
-   <button type="button" class="pwa-web" id="pwa-continue">Empezar ahora</button>
-   <button type="button" class="pwa-install" id="pwa-install">↓ Instalar EquipoGO</button>
-   <button type="button" class="pwa-web" id="pwa-ios-help" style="border:1px solid #c9f36a55;color:#d9e7d9;background:#17291f">¿Tienes iPhone? Ver pasos para instalar</button>
+   <button type="button" class="pwa-install" id="pwa-install">Instalar en Android</button>
+   <button type="button" class="pwa-web" id="pwa-ios-help" style="border:1px solid #c9f36a55;color:#d9e7d9;background:#17291f">Instalar en iPhone</button>
+   <button type="button" class="pwa-web" id="pwa-continue">Usar la versión web</button>
   </div>
   <details class="pwa-help-dropdown" id="pwa-help-dropdown"><summary>Guía de instalación para iPhone, Android y ordenador</summary><div class="pwa-steps" id="pwa-steps"></div></details>
   <p class="pwa-help">También puedes seguir usando EquipoGO desde el navegador.</p>
@@ -717,20 +717,21 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 const actions=screen.querySelector('.pwa-actions');if(actions){const start=actions.querySelector('#pwa-continue'),installButton=actions.querySelector('#pwa-install'),ios=actions.querySelector('#pwa-ios-help');if(start)actions.appendChild(start);if(installButton)actions.appendChild(installButton);if(ios)actions.appendChild(ios)}
 const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
 const hide=()=>{screen.style.display='none'};
-if(standalone()){screen.style.display='none'}else{screen.style.display='flex'}
+if(standalone()){screen.style.display='none'}else{screen.style.display='none'}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;install.hidden=false;install.textContent='↓ Instalar EquipoGO'});
 window.addEventListener('appinstalled',()=>{deferredPrompt=null;hide()});
-continueBtn.addEventListener('click',hide);
+continueBtn.addEventListener('click',()=>{hide();openEquipoGOAuth()});
 const help=document.getElementById('pwa-help-dropdown');
 const iosHelp=document.getElementById('pwa-ios-help');
-const showGuide=()=>{
+const showGuide=(platform)=>{
  steps.hidden=false;
- steps.innerHTML='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p><div class="pwa-guide-title" style="margin-top:18px">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div><div class="pwa-guide-title" style="margin-top:18px">Instalar en ordenador</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre el menú del navegador (⋮)</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Selecciona «Instalar y crear acceso directo…»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Pulsa «Instalar»</strong></div></div>';
- };
- help.addEventListener('toggle',()=>{if(help.open)showGuide()});
-iosHelp.addEventListener('click',()=>{help.open=true;showGuide();help.scrollIntoView({behavior:'smooth',block:'nearest'})});
+ const iosGuide='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p>';
+ const androidGuide='<div class="pwa-guide-title">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div>';
+ steps.innerHTML=(platform==='ios'?iosGuide:androidGuide);\n };
+ help.addEventListener('toggle',()=>{if(help.open)showGuide('ios')});
+iosHelp.addEventListener('click',()=>{help.open=true;showGuide('ios');help.scrollIntoView({behavior:'smooth',block:'nearest'})});
 const iosDevice=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-if(iosDevice){help.open=true;showGuide()}
+if(iosDevice){help.open=true;showGuide('ios')}
  install.addEventListener('click',async()=>{
  if(deferredPrompt){
   deferredPrompt.prompt();
