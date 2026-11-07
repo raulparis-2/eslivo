@@ -575,10 +575,12 @@ $('exportWeekImage').onclick=exportWeeklyScheduleImage;function changed(){if(loa
  if(channel==='wa'&&p.phone){
   let phone=p.phone.replace(/\\D/g,'');if(phone.startsWith('00'))phone=phone.slice(2);if(phone.startsWith('0'))phone=phone.slice(1);if(phone.length===9)phone='34'+phone;
   if(phone.length<10||phone.length>15){toast('Revisa el teléfono: usa el prefijo internacional, por ejemplo +34 600 000 000.',true);return}
-  if(mobile&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-   try{await navigator.share({files:[file],text:msg,title:'Horario semanal - '+p.name});toast('Selecciona WhatsApp para compartir el horario con la imagen.')}catch(e){if(e.name!=='AbortError')toast('No se pudo abrir el menú para compartir.',true)}
+  downloadImage();
+  if(mobile){
+   const waUrl='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
+   window.location.href=waUrl;
+   toast('Abriendo WhatsApp con el mensaje. Adjunta la imagen PNG descargada antes de enviarlo.');
   }else{
-   downloadImage();
    const waUrl='https://web.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(msg);
    const waWin=window.open(waUrl,'_blank');if(!waWin)window.location.href=waUrl;
    toast('WhatsApp Web se ha abierto con el mensaje. La imagen PNG se ha descargado para adjuntarla.');
