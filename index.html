@@ -673,7 +673,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 #pwa-welcome .pwa-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px}
 #pwa-welcome h1{margin:0 0 8px;font-size:29px;letter-spacing:-1px}
 #pwa-welcome p{color:#b9c6d9;margin:0 0 22px}
-#pwa-welcome .pwa-actions{display:flex;flex-direction:column;gap:11px}#pwa-welcome #pwa-install{order:1}#pwa-welcome #pwa-ios-help{order:2}#pwa-welcome #pwa-continue{order:3}
+#pwa-welcome .pwa-actions{display:flex;flex-direction:column;gap:11px}#pwa-welcome #pwa-install{order:1}#pwa-welcome #pwa-ios-help{order:2}#pwa-welcome #pwa-desktop-help{order:3}#pwa-welcome #pwa-continue{order:4}
 #pwa-welcome button{width:100%;padding:14px 18px;border-radius:13px;font-weight:750;font-size:15px}
 #pwa-welcome .pwa-install{background:#c9f36a;color:#142018;border:0}
 #pwa-welcome .pwa-web{background:#ffffff0b;border:1px solid #ffffff30;color:#f4f7fc}
@@ -706,6 +706,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
   <div class="pwa-actions">
    <button type="button" class="pwa-install" id="pwa-install">Instalar en Android</button>
    <button type="button" class="pwa-web" id="pwa-ios-help" style="border:1px solid #c9f36a55;color:#d9e7d9;background:#17291f">Instalar en iPhone</button>
+   <button type="button" class="pwa-web" id="pwa-desktop-help">Instalar en ordenador</button>
    <button type="button" class="pwa-web" id="pwa-continue">Usar la versión web</button>
   </div>
   <details class="pwa-help-dropdown" id="pwa-help-dropdown"><summary>Guía de instalación para iPhone, Android y ordenador</summary><div class="pwa-steps" id="pwa-steps"></div></details>
@@ -714,7 +715,7 @@ function deleteShift(id){if(!confirm('¿Eliminar este turno?'))return;schedule.s
 </div>
 <script>
 (()=>{let deferredPrompt=null;const screen=document.getElementById('pwa-welcome'),install=document.getElementById('pwa-install'),continueBtn=document.getElementById('pwa-continue'),steps=document.getElementById('pwa-steps');if(!screen)return;
-const actions=screen.querySelector('.pwa-actions');if(actions){const start=actions.querySelector('#pwa-continue'),installButton=actions.querySelector('#pwa-install'),ios=actions.querySelector('#pwa-ios-help');if(start)actions.appendChild(start);if(installButton)actions.appendChild(installButton);if(ios)actions.appendChild(ios)}
+const actions=screen.querySelector('.pwa-actions');if(actions){const start=actions.querySelector('#pwa-continue'),installButton=actions.querySelector('#pwa-install'),ios=actions.querySelector('#pwa-ios-help'),desktop=actions.querySelector('#pwa-desktop-help');if(start)actions.appendChild(start);if(installButton)actions.appendChild(installButton);if(ios)actions.appendChild(ios);if(desktop)actions.appendChild(desktop)}
 const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
 const hide=()=>{screen.style.display='none'};
 if(standalone()){screen.style.display='none'}else{screen.style.display='none'}
@@ -728,9 +729,12 @@ const showGuide=(platform)=>{
  steps.hidden=false;
  const iosGuide='<div class="pwa-guide-title">Instalar en iPhone o iPad</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Safari</strong><p>La instalación se realiza desde Safari, no desde Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Pulsa Compartir</strong><p>Es el icono de un cuadrado con una flecha hacia arriba.</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Añadir a pantalla de inicio»</strong><p>Pulsa «Añadir» arriba a la derecha. Si aparece «Abrir como app web», actívalo.</p></div></div><p class="pwa-help">En iPhone, Apple no permite que una web abra directamente ese menú: debes seguir estos pasos manualmente.</p>';
  const androidGuide='<div class="pwa-guide-title">Instalar en Android</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Abre EquipoGO en Chrome</strong></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Abre el menú ⋮</strong><p>Selecciona «Instalar aplicación» o «Añadir a pantalla de inicio».</p></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Confirma la instalación</strong><p>No descargues archivos APK.</p></div></div>';
- steps.innerHTML=platform==='ios'?iosGuide:androidGuide;
+ const desktopGuide='<div class="pwa-guide-title">Instalar en ordenador (Google Chrome)</div><div class="pwa-step"><span class="pwa-num">1</span><div><strong>Pulsa los tres puntos ⋮</strong><p>En la esquina superior derecha de Chrome.</p></div></div><div class="pwa-step"><span class="pwa-num">2</span><div><strong>Entra en «Transmitir, guardar y compartir»</strong></div></div><div class="pwa-step"><span class="pwa-num">3</span><div><strong>Selecciona «Instalar página como aplicación»</strong><p>Confirma en la ventana que aparece. Después podrás abrir EquipoGO desde el escritorio o el menú Inicio.</p></div></div><p class="pwa-help">Si no aparece esa opción, actualiza Chrome o comprueba si la página ofrece la instalación desde la barra de direcciones.</p>';
+ steps.innerHTML=platform==='ios'?iosGuide:platform==='desktop'?desktopGuide:androidGuide;
 };
 iosHelp.addEventListener('click',()=>{showGuide('ios');help.scrollIntoView({behavior:'smooth',block:'nearest'})});
+const desktopHelp=document.getElementById('pwa-desktop-help');
+desktopHelp.addEventListener('click',()=>{showGuide('desktop');help.scrollIntoView({behavior:'smooth',block:'nearest'})});
 install.addEventListener('click',async()=>{
  const ua=navigator.userAgent;
  const isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
